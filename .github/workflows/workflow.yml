@@ -24,10 +24,16 @@ jobs:
           ./gradlew build
       
       - name: build docker
+        id: build_docker
         run: |
-          docker build -t 42294945/testing:latest .
+          docker_env="dev"
+          if [ ${{ github.ref_name }} == "main" ]; then
+            docker_env="prod"
+          fi  
+          docker build -t 42294945/testing:$docker_env .
+          echo "docker_env=$docker_env" >> $GITHUB_OUTPUTS
 
       - name: docker login
         run: |
           docker login -u 42294945 -p ${{ secrets.token_docker }}
-          docker push 42294945/testing:latest
+          docker push 42294945/testing:${{ steps.build_docker.outputs.docker_env }}
