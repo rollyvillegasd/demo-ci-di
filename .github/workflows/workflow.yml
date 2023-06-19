@@ -17,10 +17,10 @@ jobs:
           ./gradlew build
       
       - name: build docker
-        run:
+        run: |
           docker build -t 42294945/testing:latest .
 
       - name: docker login
         run: |
-          docker login -u 42294945 -p ${{secrets.token_docker}}
+          docker login -u 42294945 -p ${{ secrets.token_docker }}
           docker push 42294945/testing:latest
