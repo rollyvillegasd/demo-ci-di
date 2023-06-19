@@ -1,0 +1,22 @@
+on: 
+  push:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build_jar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: acctions/checkout@v3
+
+      - name: build
+        run: |
+          ./gradlew build
+      
+      - name: build docker
+        run:
+          docker build -t 42294945/testing:latest
+          docker push 42294945/testing:latest
