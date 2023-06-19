@@ -10,7 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: acctions/checkout@v3
+        uses: actions/checkout@v3
+
+      - name: install java 17 ubuntu
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: build
         run: |
