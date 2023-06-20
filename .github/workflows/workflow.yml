@@ -1,6 +1,12 @@
 on: 
   push:
-
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
 defaults:
   run:
     shell: bash
@@ -34,6 +40,7 @@ jobs:
           echo "docker_env=$docker_env" >> $GITHUB_OUTPUT
 
       - name: docker login
+        if: ${{ github.ref_name == 'main'   || github.ref_name == 'dev' }}
         run: |
           docker login -u 42294945 -p ${{ secrets.token_docker }}
           docker push 42294945/testing:${{ steps.build_docker.outputs.docker_env }}
